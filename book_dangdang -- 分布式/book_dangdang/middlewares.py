@@ -4,12 +4,11 @@
 #
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-from douban.settings import IP_Pool
+
 from scrapy import signals
-import random
 
 
-class DoubanSpiderMiddleware(object):
+class BookDangdangSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -57,7 +56,7 @@ class DoubanSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class DoubanDownloaderMiddleware(object):
+class BookDangdangDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
@@ -102,12 +101,3 @@ class DoubanDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
-
-class RandomUserAgent(object):
-
-    def process_request(self, request, spider):
-        user_agent = random.choice(spider.settings.get("USER_AGENTS_LIST"))
-        request.headers["User-Agent"] = user_agent
-        IP = random.choice(IP_Pool)
-        print("*"*30,IP)
-        request.meta["proxy"] = IP  # IP代理
